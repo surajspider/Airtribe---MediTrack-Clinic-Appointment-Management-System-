@@ -31,8 +31,27 @@ public class PatientService {
                 .findFirst();
     }
 
-    // Polymorphism / Search overloads
-    public List<Patient> searchPatients(String query) {
+    // Polymorphism: Overloaded searchPatient methods
+    public List<Patient> searchPatient(String name) {
+        return patientStore.getAll().stream()
+                .filter(p -> p.getName().toLowerCase().contains(name.toLowerCase()))
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    public Optional<Patient> searchPatientById(String id) {
+        return patientStore.getAll().stream()
+                .filter(p -> p.getId().equalsIgnoreCase(id))
+                .findFirst();
+    }
+
+    public List<Patient> searchPatient(int age) {
+        return patientStore.getAll().stream()
+                .filter(p -> p.getAge() == age)
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    // Using the generic interface search
+    public List<Patient> searchPatientByQuery(String query) {
         return patientStore.search(query);
     }
 }
