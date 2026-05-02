@@ -79,6 +79,7 @@ public class Main {
             System.out.println("6. Search Doctors");
             System.out.println("7. System Analytics");
             System.out.println("8. Save and Exit");
+            System.out.println("9. Smart Doctor Recommendation (AI)");
             System.out.print("Select an option: ");
 
             String option = scanner.nextLine();
@@ -177,6 +178,19 @@ public class Main {
                         saveData();
                         System.out.println("Exiting System. Goodbye!");
                         return;
+                    case "9":
+                        System.out.print("Please describe your symptoms: ");
+                        String symptoms = scanner.nextLine();
+                        Specialization recommended = AIHelper.recommendSpecialization(symptoms);
+                        System.out.println("\n[AI Recommendation] Based on your symptoms, we recommend: " + recommended);
+                        List<Doctor> recommendedDoctors = doctorService.getDoctorsBySpecialization(recommended);
+                        if (recommendedDoctors.isEmpty()) {
+                            System.out.println("Currently, there are no doctors available for " + recommended);
+                        } else {
+                            System.out.println("Here are the available doctors for your condition:");
+                            recommendedDoctors.forEach(Doctor::displayDetails);
+                        }
+                        break;
                     default:
                         System.out.println("Invalid option. Please try again.");
                 }
