@@ -156,6 +156,22 @@ public class Main {
                             }
 
                             Bill bill = BillFactory.createBill(billingApp, billType, discount);
+
+                            System.out.println("Select Billing Strategy:");
+                            System.out.println("1. Standard Tax (18%)");
+                            System.out.println("2. Senior Citizen (20% Discount + Tax)");
+                            System.out.println("3. VIP (No Tax, $50 Handling)");
+                            System.out.print("Choice: ");
+                            String stratChoice = scanner.nextLine();
+                            
+                            if ("2".equals(stratChoice)) {
+                                bill.setBillingStrategy(new com.airtribe.meditrack.strategy.SeniorCitizenBillingStrategy());
+                            } else if ("3".equals(stratChoice)) {
+                                bill.setBillingStrategy(new com.airtribe.meditrack.strategy.VIPBillingStrategy());
+                            } else {
+                                bill.setBillingStrategy(new com.airtribe.meditrack.strategy.StandardBillingStrategy());
+                            }
+
                             BillSummary summary = bill.generateBill();
                             System.out.println("\nGenerated Bill:");
                             System.out.println(summary.toString());
